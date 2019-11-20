@@ -10,10 +10,27 @@ router.get('/list', async (req, res, next) => {
   res.json(result);
 });
 
-router.post('/add', (req, res, next) => {
-  const body = req.body;
-  const result = dbClient.execute((collection) => {
+router.post('/item/add', async (req, res, next) => {
+  const { body } = req;
+  const result = await dbClient.execute((collection) => {
     return collection.insertOne(body);
+  });
+  res.json(result);
+});
+
+router.post('/item/delete', async (req, res, next) => {
+  const { _id } = req.body;
+  const result = await dbClient.execute((collection) => {
+    return collection.deleteOne({ _id });
+  });
+  res.json(result);
+});
+
+router.post('/item/update', async (req, res, next) => {
+  const { body } = req;
+  const { _id } = body;
+  const result = await dbClient.execute((collection) => {
+    return collection.updateOne({ _id }, { $set: body });
   });
   res.json(result);
 });
