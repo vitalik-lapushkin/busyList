@@ -12,3 +12,16 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: mongo
     volumes:
       - ./mongo/db:/data/db
+  back:
+    build: .
+    container_name: back
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: mongo
+      DB_PORT: "27017"
+      DB_LOGIN: mongo
+      DB_PASSWORD: mongo
+    links:
+      - mongo
